@@ -70,3 +70,8 @@ body{
     font-weight: bold;
     margin-bottom: 10px;
 }
+
+.modal-iframe {
+    max-width: 450px;
+    width: 100%;
+}
