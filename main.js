@@ -1,37 +1,80 @@
 const elList = document.querySelector(".movies__list");
 const elTemp = document.querySelector(".movies__temp").content;
-
 const elFragment = document.createDocumentFragment();
 
-const elMovies = movies.slice(0 , 99)
+// Modal =====
 
-for (const movie of elMovies){
+const elModal = document.querySelector(".modal");
+const modalTitle = document.querySelector(".modal-title");
+const modalIframe = document.querySelector(".modal-iframe");
+const modalRating = document.querySelector(".modal-rating");
+const modalYear = document.querySelector(".modal-year");
+const modalRuntime = document.querySelector(".modal-runtime");
+const modalCateg = document.querySelector(".modal-categories");
+const modalSumm = document.querySelector(".modal-summary");
+const modalLink = document.querySelector(".modal-imdb-link")
 
-    const elClone = elTemp.cloneNode(true);
 
-    elClone.querySelector(".movies__title").textContent = movie.Title;
-    elClone.querySelector(".movies_year").textContent = movie.movie_year;
-    elClone.querySelector(".movies__cat").textContent = movie.Categories;
-    elClone.querySelector(".movies__lang").textContent = movie.language;
 
-    elFragment.appendChild(elClone);
 
-    elList.appendChild(elFragment);
-
+function getDuration(time) {
+    
+    const hours = Math.floor(time / 60);
+    const minut = Math.floor(time % 60);
+    
+    return `${hours} hrs ${minut} min`
+    
 }
 
 
-// const array = [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-
-// const newArr = array.slice(0 , 10)
-
-// for (const arr of newArr) {
-  
-
+function renderMovies(kino){
     
-//     const item = document.createElement("li");
-//     item.textContent = arr;
+    kino.forEach(item => {
+        
+        const elClone = elTemp.cloneNode(true);
+        
+        elClone.querySelector(".movie-img").src = `https://i3.ytimg.com/vi/${item.ytid}/mqdefault.jpg`
+        elClone.querySelector(".movies__title").textContent = item.Title;
+        elClone.querySelector(".movies__rating").textContent = item.imdb_rating;
+        elClone.querySelector(".movies__year").textContent = item.movie_year;
+        elClone.querySelector(".movies__runtime").textContent = getDuration(item.runtime);
+        elClone.querySelector(".movies__cat").textContent = item.Categories.split("|").join(", ");
+        elClone.querySelector(".movies-btn").dataset.id = item.imdb_id;
+        elFragment.appendChild(elClone);
+        
+    });
+    elList.appendChild(elFragment);
+}
 
-//     elList.appendChild(item);
 
-// }
+function renderMoviesInfo(topilganKino){
+    
+    modalTitle.textContent = topilganKino.Title;
+    modalIframe.src = `https://www.youtube-nocookie.com/embed/${topilganKino.ytid}`;
+    modalRating.textContent = topilganKino.imdb_rating;
+    modalYear.textContent = topilganKino.movie_year;
+    modalRuntime.textContent = getDuration(topilganKino.runtime);
+    modalCateg.textContent = topilganKino.Categories.split("|").join(", ");
+    modalSumm.textContent = topilganKino.summary;
+    modalLink.href = `https://www.imdb.com/title/${topilganKino.imdb_id}`;
+}
+
+elList.addEventListener("click" ,function(evt){
+    const targetElement = evt.target;
+    if(targetElement.matches(".movies-btn")){
+        
+        // buttonning id attributining qiymatini olib, o'sha qiymatga ega bo'lgan kinoni topish
+        const btnId = targetElement.dataset.id;
+        const foundMovies = movies.find(movie => movie.imdb_id === btnId);
+        renderMoviesInfo(foundMovies);
+    }
+});
+
+elModal.addEventListener("hide.bs.modal", function(){
+    modalIframe.src = "";
+})
+
+
+
+renderMovies(movies.slice(0 , 33))
+
