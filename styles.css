@@ -9,13 +9,19 @@ body{
 .cinema__netflix {
     fill: #E50914;
 }
+
+.form__wrapper {
+    margin-top: 100px;
+}
+
 .movies__list {
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
 .movies__item {
-    max-width: 300px;
+    max-width: 350px;
     width: 100%;
     margin-bottom: 50px;
     background-color: yellow;
@@ -54,9 +60,9 @@ body{
     background-position: center;
     background-size: 20px;
     margin-right: 5px;
-  }
-  
-  .year-icon::before {
+}
+
+.year-icon::before {
     content: "";
     width: 20px;
     height: 20px;
@@ -64,7 +70,7 @@ body{
     background-position: center;
     background-size: 20px;
     margin-right: 5px;
-  }
+}
 
 .movies__cat {
     font-weight: bold;
