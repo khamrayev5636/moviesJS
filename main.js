@@ -30,7 +30,7 @@ function renderMovie(kino){
 
     elList.textContent = "";
 
-    
+
 
     kino.forEach(item => {
         
@@ -78,15 +78,15 @@ elList.addEventListener("click" , function(evt){
 elForm.addEventListener("submit" , function(evt){
     evt.preventDefault();
 
-    const  elSearchValue = elSearch.value.trim();
+    const elSearchValue = elSearch.value.trim();
 
-    const elSearchReg = new RegExp(elSearchValue , "gi");
+    const regTitle = new RegExp(elSearchValue , "gi");
 
-    const findSearch = movies.filter(searchKino => String(searchKino.Title).match(elSearchReg));
+    const searchMovie = movies.filter(element => String(element.Title).match(regTitle));
 
-    renderMovie(findSearch);
+    renderMovie(searchMovie);
 
-})
+});
 
 
 

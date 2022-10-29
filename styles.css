@@ -81,3 +81,7 @@ body{
     max-width: 450px;
     width: 100%;
 }
+
+.modal-footer {
+    justify-content: space-between;
+}
