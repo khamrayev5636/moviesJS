@@ -125,53 +125,44 @@ function renderSort(moviesort,value){
         moviesort.sort((a , b) => {
             if(a.Title > b.Title){
                 return 1
-            }
+            };
             if(a.Title < b.Title){
                 return -1
             }else {
                 return 0;
-            }
-        })
+            };
+        });
     };
     
     if(value == "z-a"){
         moviesort.sort((a , b) => {
             if(a.Title > b.Title){
                 return -1
-            }
+            };
             if(a.Title < b.Title){
                 return 1
             }else {
                 return 0;
-            }
-        })
+            };
+        });
     };
     
     if(value === "10-1"){
-        moviesort.sort((a,b) => {
-            return b.imdb_rating - a.imdb_rating;
-        });
+        moviesort.sort((a,b) => b.imdb_rating - a.imdb_rating);
     };
     
     if(value === "1-10"){
-        moviesort.sort((a,b) => {
-            return a.imdb_rating - b.imdb_rating;
-        });
-    };
+        moviesort.sort((a,b) => a.imdb_rating - b.imdb_rating);
+    }
     
     if(value === "2018-2000"){
-        moviesort.sort((a,b) => {
-            return b.movie_year - a.movie_year;
-        });
+        moviesort.sort((a,b) => b.movie_year - a.movie_year);
     };
     
     if(value === "2000-2018"){
-        moviesort.sort((a,b) => {
-            return a.movie_year - b.movie_year;
-        });
-    };
-    
-    
+        moviesort.sort((a,b) => a.movie_year - b.movie_yea);
+    }
+      
 }
 
 
@@ -185,10 +176,7 @@ elFormSearch.addEventListener("submit" , function(evt){
     const elMinYearValue = elMinYear.value;
     const elMaxYearValue = elMaxYear.value;
     const elSelectSortValue = elSelectSort.value;
-    
-    
-    renderSort(movies, elSelectSortValue);
-    
+        
     const regTitle = new RegExp(elSearchValue , "gi");
     
     const searchMovie = movies.filter(element => String(element.Title).match(regTitle) && (element.Categories.includes(elSelectValue) || elSelectValue === "All") && (elMinYearValue <= element.movie_year || elMinYearValue === "") && (elMaxYearValue >= element.movie_year || elMaxYearValue === ""));
@@ -196,8 +184,9 @@ elFormSearch.addEventListener("submit" , function(evt){
     
     if(searchMovie.length > 0){
         renderMovie(searchMovie);
+        renderSort(searchMovie, elSelectSortValue);
     }else{
-        alert("No such movie found!❌❌❌")
+        elList.textContent = "Not found Movies❌❌❌"
     }
 });
 
