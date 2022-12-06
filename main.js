@@ -1,6 +1,8 @@
 const elList = document.querySelector(".movies__list");
 const elTemp = document.querySelector(".movies__temp").content;
-const elFragment = document.createDocumentFragment();
+const elFragment = new DocumentFragment();
+
+
 
 // FORM ============
 const elFormSearch = document.querySelector(".form")
@@ -34,16 +36,27 @@ function greetingHour(time){
 
 // RenderMovie Domga kinoni chizish
 
-function renderMovie(kino){
+function renderMovie(kino , regex = ""){
     
     elList.innerHTML = "";
+
+    // console.dir(regex)
     
     kino.forEach(item => {
         
         const elClone = elTemp.cloneNode(true);
         
         elClone.querySelector(".movie-img").src =`https://i3.ytimg.com/vi/${item.ytid}/mqdefault.jpg`
-        elClone.querySelector(".movies__title").textContent = item.Title;
+        
+        if(regex.source != "(?:)" && regex){
+            
+            elClone.querySelector(".movies__title").innerHTML = item.Title.replace(regex,`<mark class="bg-danger">${regex.source.toLowerCase()}</mark>`);
+            
+        }else{
+            
+            elClone.querySelector(".movies__title").textContent = item.Title;
+        }
+        
         elClone.querySelector(".movies__rating").textContent = item.imdb_rating;
         elClone.querySelector(".movies__year").textContent = item.movie_year;
         elClone.querySelector(".movies__runtime").textContent = greetingHour(item.runtime);
@@ -160,9 +173,9 @@ function renderSort(moviesort,value){
     };
     
     if(value === "2000-2018"){
-        moviesort.sort((a,b) => a.movie_year - b.movie_yea);
-    }
-      
+        moviesort.sort((a,b) => a.movie_year - b.movie_year);
+    };
+    
 }
 
 
@@ -176,22 +189,22 @@ elFormSearch.addEventListener("submit" , function(evt){
     const elMinYearValue = elMinYear.value;
     const elMaxYearValue = elMaxYear.value;
     const elSelectSortValue = elSelectSort.value;
-        
+    
     const regTitle = new RegExp(elSearchValue , "gi");
     
     const searchMovie = movies.filter(element => String(element.Title).match(regTitle) && (element.Categories.includes(elSelectValue) || elSelectValue === "All") && (elMinYearValue <= element.movie_year || elMinYearValue === "") && (elMaxYearValue >= element.movie_year || elMaxYearValue === ""));
     
     
     if(searchMovie.length > 0){
-        renderMovie(searchMovie);
-        renderSort(searchMovie, elSelectSortValue);
+        renderSort(searchMovie , elSelectSortValue);
+        renderMovie(searchMovie, regTitle);
     }else{
         elList.textContent = "Not found Movies❌❌❌"
     }
 });
 
 renderSelect(movies);
-renderMovie(movies.slice(0,99));
+renderMovie(movies);
 
 
 elModal.addEventListener("hide.bs.modal", function(){
